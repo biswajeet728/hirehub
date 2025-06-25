@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Candidate } from "@/types/types";
-import { Bookmark, Calendar, Eye, Linkedin, MapPin, Star } from "lucide-react";
+import { Calendar, Eye, Linkedin, MapPin, Star } from "lucide-react";
 import { BookmarkForm } from "./_book-mark-button";
 
 function CandidateCard({ candidate }: { candidate: Candidate }) {
@@ -46,6 +46,12 @@ function CandidateCard({ candidate }: { candidate: Candidate }) {
             </div>
           </div>
         </div>
+
+        <BookmarkForm
+          candidateId={candidate._id}
+          isBookmarkedStatus={candidate.isBookmarked}
+          bookmarkId={candidate.bookmarkId || null}
+        />
       </CardHeader>
 
       <CardContent className="relative">

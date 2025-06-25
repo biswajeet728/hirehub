@@ -13,12 +13,13 @@ import {
   Globe,
   Briefcase,
 } from "lucide-react";
+import { format, parseISO } from "date-fns";
 
 function JobCard({ job }: { job: JobPostingType }) {
-  // Format establishment date
-  const establishmentDate = job.yearOfEstablishment
-    ? new Date(job.yearOfEstablishment).getFullYear()
-    : "N/A";
+  const formattedDate = format(
+    parseISO(job.yearOfEstablishment as string),
+    "d MMMM yyyy"
+  );
 
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-slate-900/40 via-slate-800/60 to-slate-900/40 backdrop-blur-xl border border-white/20 shadow-2xl transition-all duration-500 p-6 rounded-md group hover:shadow-indigo-500/20">
@@ -76,9 +77,7 @@ function JobCard({ job }: { job: JobPostingType }) {
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4 text-indigo-400" />
-            <span className="text-gray-300 text-sm">
-              Est. {establishmentDate}
-            </span>
+            <span className="text-gray-300 text-sm">Est. {formattedDate}</span>
           </div>
           <div className="flex items-center gap-2">
             <Users className="h-4 w-4 text-indigo-400" />

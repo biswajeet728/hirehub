@@ -275,6 +275,13 @@ export const createBookmark = async (candidateId: string) => {
 
     const hr = await auth();
 
+    if (!hr?.user?.id) {
+      return {
+        success: false,
+        message: "Please Login to Bookmark this Candidate",
+      };
+    }
+
     const existing = await Bookmark.findOne({ candidateId, hrId: hr?.user.id });
 
     if (existing) {

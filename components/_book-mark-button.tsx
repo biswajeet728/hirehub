@@ -50,7 +50,7 @@ export function BookmarkForm({
             toast.success("Bookmark added!");
           } else {
             console.error("Failed to create bookmark:", response.message);
-            toast.error("Failed to create bookmark: " + response.message);
+            toast.error(response.message);
           }
         }
 

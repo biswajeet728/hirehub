@@ -7,7 +7,9 @@ function BookmarkListing({ jobs }: { jobs: Candidate[] }) {
     <section className="mt-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="flex items-center gap-2 mb-4 text-gray-800">
-          <span className="text-2xl font-bold text-stone-50">Job Listings</span>
+          <span className="text-2xl font-bold text-stone-50">
+            Bookmark Listings
+          </span>
           <span className="text-sm text-gray-200"> ({jobs?.length})</span>
         </h2>
       </div>

@@ -21,7 +21,7 @@ const jobPostingSchema = new mongoose.Schema<JobPostingType>(
     organizationType: { type: String }, // e.g., Private, Government
     industryTypes: [{ type: String }],
     teamSize: { type: String },
-    yearOfEstablishment: { type: Date },
+    yearOfEstablishment: { type: String },
     companyWebsite: { type: String },
     companyVision: { type: String },
 

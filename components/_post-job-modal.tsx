@@ -560,9 +560,13 @@ function AddJobPostingModal<T extends FieldValues>({
                               }`}
                             >
                               {field.value ? (
-                                format(field.value, "yyyy") // Only show year
+                                typeof field.value === "string" ? (
+                                  field.value
+                                ) : (
+                                  format(new Date(field.value), "dd MMMM yyyy")
+                                )
                               ) : (
-                                <span>Pick a year</span>
+                                <span>Pick a date</span>
                               )}
                               <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                             </Button>
@@ -571,11 +575,21 @@ function AddJobPostingModal<T extends FieldValues>({
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
                             mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
+                            selected={
+                              field.value ? new Date(field.value) : undefined
+                            }
+                            onSelect={(date) => {
+                              if (date) {
+                                const formattedDate = format(
+                                  date,
+                                  "dd MMMM yyyy"
+                                );
+                                field.onChange(formattedDate);
+                              }
+                            }}
                             disabled={(date) => date > new Date()}
                             initialFocus
-                            captionLayout="dropdown" // Show year dropdown
+                            captionLayout="dropdown"
                             fromYear={1900}
                             toYear={new Date().getFullYear()}
                           />
