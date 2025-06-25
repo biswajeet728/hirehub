@@ -3,7 +3,7 @@
 import { CardAction } from "./ui/card";
 import { Bookmark, BookmarkCheck, Loader } from "lucide-react";
 import { createBookmark, deleteBookmark } from "@/lib/action";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 export function BookmarkForm({
