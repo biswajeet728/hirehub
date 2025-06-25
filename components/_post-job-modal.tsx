@@ -26,7 +26,6 @@ import { CalendarIcon, Loader, Plus, Trash2, Upload } from "lucide-react";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
