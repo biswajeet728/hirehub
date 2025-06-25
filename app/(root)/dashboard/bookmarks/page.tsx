@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import BookmarkListing from "@/components/_bookmark-listing";
 import { getBookmarks } from "@/lib/action";
-import { Candidate, JobPostingType } from "@/types/types";
+import { Candidate } from "@/types/types";
 import { redirect } from "next/navigation";
 
 export default async function BookMarkPage() {
