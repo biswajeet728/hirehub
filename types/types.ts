@@ -43,7 +43,7 @@ export interface JobPostingType {
   organizationType?: string;
   industryTypes?: string[];
   teamSize?: string;
-  yearOfEstablishment?: Date | string;
+  yearOfEstablishment?: string;
   companyWebsite?: string;
   companyVision?: string;
 

@@ -77,7 +77,9 @@ function JobCard({ job }: { job: JobPostingType }) {
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4 text-indigo-400" />
-            <span className="text-gray-300 text-sm">Est. {formattedDate}</span>
+            <span className="text-gray-300 text-sm">
+              Est. {job.yearOfEstablishment}
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <Users className="h-4 w-4 text-indigo-400" />

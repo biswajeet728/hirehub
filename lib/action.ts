@@ -195,7 +195,7 @@ export const getJobPostings = async () => {
       ...job,
       _id: (job._id as any).toString(),
       createdBy: job.createdBy?.toString(),
-      yearOfEstablishment: job.yearOfEstablishment?.toISOString(),
+      yearOfEstablishment: job.yearOfEstablishment,
     }));
 
     return {
@@ -203,7 +203,7 @@ export const getJobPostings = async () => {
       data: cleanJobPostings,
     };
   } catch (error) {
-    console.log(JSON.stringify(error, null, 2), "Error fetching job postings");
+    console.log(error, "Error fetching job postings");
     return {
       success: false,
       error: "Error fetching job postings",
@@ -226,7 +226,7 @@ export async function createJobPosting(formData: any) {
     socialMediaProfiles,
     teamSize,
     yearOfEstablishment,
-  } = formData; // ✅ no JSON.parse()
+  } = formData;
 
   try {
     await connectToDB();
@@ -254,11 +254,11 @@ export async function createJobPosting(formData: any) {
       phone,
       socialMediaProfiles,
       teamSize,
-      yearOfEstablishment,
+      yearOfEstablishment: yearOfEstablishment, // Will be null if not provided
       createdBy: loggedUser._id,
     });
 
-    revalidatePath("/dashboard/jobs");
+    revalidatePath("/dashboard/jobs"); // Optional: Refresh the jobs page
 
     return {
       success: true,

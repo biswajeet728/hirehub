@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Contact, Sparkles } from "lucide-react";
 import UserBox from "./_user-box";
 import { auth } from "@/auth";
+import MobileNav from "./_mobile-nav";
 
 async function Header() {
   const user = await auth();
@@ -66,7 +67,14 @@ async function Header() {
           )}
         </nav>
 
-        <UserBox />
+        <div className="flex items-center gap-4">
+          <UserBox />
+
+          {/* show headers */}
+          <div className="md:hidden w-fit">
+            <MobileNav />
+          </div>
+        </div>
       </div>
 
       {/* Floating elements for extra visual interest */}

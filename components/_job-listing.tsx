@@ -7,7 +7,7 @@ function JobListing({ jobs }: { jobs: JobPostingType[] }) {
   return (
     <section className="mt-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="flex items-center gap-2 mb-4 text-gray-800">
+        <h2 className="flex flex-col md:flex-row items-start md:items-start gap-2 mb-4 text-gray-800">
           <span className="text-2xl font-bold text-stone-50">Job Listings</span>
           <span className="text-sm text-gray-200">
             {" "}
@@ -41,7 +41,7 @@ function JobListing({ jobs }: { jobs: JobPostingType[] }) {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-5">
           {jobs.map((job) => (
             <JobCard key={job._id} job={job} />
           ))}

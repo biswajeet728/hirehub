@@ -133,14 +133,13 @@ function AddJobPostingModal<T extends FieldValues>({
           organizationType: true,
           industryTypes: true,
           teamSize: true,
-          yearOfEstablishment: true,
           companyWebsite: true,
+          // Remove yearOfEstablishment from required validation if keeping it optional
         })
         .parse({
           organizationType: watchedValues.organizationType,
           industryTypes: watchedValues.industryTypes,
           teamSize: watchedValues.teamSize,
-          yearOfEstablishment: watchedValues.yearOfEstablishment,
           companyWebsite: watchedValues.companyWebsite,
         });
       return true;
@@ -151,7 +150,6 @@ function AddJobPostingModal<T extends FieldValues>({
     watchedValues.organizationType,
     watchedValues.industryTypes,
     watchedValues.teamSize,
-    watchedValues.yearOfEstablishment,
     watchedValues.companyWebsite,
   ]);
 
@@ -254,13 +252,22 @@ function AddJobPostingModal<T extends FieldValues>({
   );
 
   // Handle form submission
+  // Handle form submission
   const handleFormSubmit = async (data: JobPostingFormValues) => {
     startTransition(async () => {
       setOpen(false);
       setUploading(false);
       setCompanyLogoPreview(null);
 
-      const response = await createJobPosting(data);
+      // Ensure yearOfEstablishment is included even if undefined
+      const submissionData = {
+        ...data,
+        yearOfEstablishment: data.yearOfEstablishment || null, // Convert undefined to null
+      };
+
+      console.log("Submitting job posting data:", submissionData);
+
+      const response = await createJobPosting(submissionData);
       if (response.success) {
         form.reset();
         toast.success("Job posting created successfully!");
@@ -547,53 +554,17 @@ function AddJobPostingModal<T extends FieldValues>({
                   control={form.control}
                   name="yearOfEstablishment"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>Year of Establishment</FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={`w-full pl-3 text-left font-normal ${
-                                !field.value && "text-gray-400"
-                              }`}
-                            >
-                              {field.value ? (
-                                typeof field.value === "string" ? (
-                                  field.value
-                                ) : (
-                                  format(new Date(field.value), "dd MMMM yyyy")
-                                )
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={
-                              field.value ? new Date(field.value) : undefined
-                            }
-                            onSelect={(date) => {
-                              if (date) {
-                                const formattedDate = format(
-                                  date,
-                                  "dd MMMM yyyy"
-                                );
-                                field.onChange(formattedDate);
-                              }
-                            }}
-                            disabled={(date) => date > new Date()}
-                            initialFocus
-                            captionLayout="dropdown"
-                            fromYear={1900}
-                            toYear={new Date().getFullYear()}
-                          />
-                        </PopoverContent>
-                      </Popover>
+                    <FormItem>
+                      <FormLabel className="text-white">
+                        Year of Establishment
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Year of Establishment"
+                          {...field}
+                          className="bg-white/10 border-white/20 text-white focus:border-orange-500"
+                        />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}

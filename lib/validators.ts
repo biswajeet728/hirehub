@@ -47,9 +47,9 @@ export const jobPostingSchema = z.object({
     .array(z.string())
     .min(1, "At least one industry type is required"),
   teamSize: z.string().min(1, "Team size is required"),
-  yearOfEstablishment: z
-    .union([z.date(), z.string().transform((str) => new Date(str))])
-    .optional(),
+  yearOfEstablishment: z.string({
+    required_error: "Year of establishment is required",
+  }), // Made required
   companyWebsite: z
     .string()
     .min(1, "Company website is required")

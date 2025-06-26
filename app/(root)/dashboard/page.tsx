@@ -227,8 +227,8 @@ function Page() {
 
             {/* Pagination Controls */}
             {!loading && filteredCandidates.length > 0 && (
-              <div className="p-4 border-t border-white/10">
-                <div className="flex items-center justify-between">
+              <div className="p-4 border-t border-white/10 -z-10">
+                <div className="flex flex-col md:flex-row gap-2.5 items-center justify-between ">
                   {/* Results info */}
                   <div className="text-sm text-white/70">
                     Showing {startIndex + 1}-
@@ -246,49 +246,6 @@ function Page() {
                     >
                       <ChevronLeft size={18} />
                     </button>
-
-                    {/* Page numbers */}
-                    <div className="flex items-center gap-1">
-                      {[...Array(totalPages)].map((_, index) => {
-                        const page = index + 1;
-                        const isCurrentPage = page === currentPage;
-
-                        // Show first page, last page, current page, and pages around current page
-                        const showPage =
-                          page === 1 ||
-                          page === totalPages ||
-                          (page >= currentPage - 1 && page <= currentPage + 1);
-
-                        if (!showPage) {
-                          // Show ellipsis
-                          if (
-                            page === currentPage - 2 ||
-                            page === currentPage + 2
-                          ) {
-                            return (
-                              <span key={page} className="px-2 text-white/50">
-                                ...
-                              </span>
-                            );
-                          }
-                          return null;
-                        }
-
-                        return (
-                          <button
-                            key={page}
-                            onClick={() => goToPage(page)}
-                            className={`w-10 h-10 rounded-lg border transition-all duration-200 cursor-pointer ${
-                              isCurrentPage
-                                ? "bg-orange-500 border-orange-500 text-white"
-                                : "bg-slate-700/50 border-white/10 text-white/70 hover:bg-slate-600/50 hover:text-white"
-                            }`}
-                          >
-                            {page}
-                          </button>
-                        );
-                      })}
-                    </div>
 
                     {/* Next button */}
                     <button
@@ -308,7 +265,7 @@ function Page() {
 
       <div
         className={cn(
-          "md:hidden absolute left-0 top-0 bg-[rgba(22,25,29,10)] h-full w-[420px] z-30 transform transition-transform duration-300",
+          "md:hidden absolute left-0 top-0 bg-[rgba(22,25,29,10)] h-full w-[420px] z-50 transform transition-transform duration-300 pb-10",
           {
             "translate-x-0": showMobileFilters,
             "-translate-x-full": !showMobileFilters,
@@ -323,7 +280,7 @@ function Page() {
         {/* add a close icon */}
         <button
           onClick={() => setShowMobileFilters(false)}
-          className="absolute top-4 right-4 text-white cursor-pointer hover:text-orange-500 transition-colors duration-200 rounded-full p-2 bg-slate-700/50 hover:bg-slate-600/50 border border-white/10"
+          className="absolute top-4 right-5 text-white cursor-pointer hover:text-orange-500 transition-colors duration-200 rounded-full p-2 bg-slate-700/50 hover:bg-slate-600/50 border border-white/10 z-50"
         >
           <X size={18} />
         </button>
