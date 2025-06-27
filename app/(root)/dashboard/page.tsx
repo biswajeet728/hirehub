@@ -17,8 +17,11 @@ function Page() {
     branches: [] as string[],
     batches: [] as string[],
     colleges: [] as string[],
-    searchQuery: "",
   });
+  // Separate search query for main search
+  const [mainSearchQuery, setMainSearchQuery] = useState("");
+  // Separate search query for filter search
+  const [filterSearchQuery, setFilterSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
@@ -45,7 +48,7 @@ function Page() {
     fetchData();
   }, []);
 
-  // Apply filters whenever filters state changes
+  // Apply filters whenever filters state or main search query changes
   useEffect(() => {
     if (!loading && candidatesData.length > 0) {
       const filtered = candidatesData.filter((candidate) => {
@@ -66,27 +69,28 @@ function Page() {
           filters.colleges.length === 0 ||
           filters.colleges.includes(candidate.college);
 
-        const matchesSearch =
-          !filters.searchQuery ||
+        // Main search functionality - separate from filter search
+        const matchesMainSearch =
+          !mainSearchQuery ||
           candidate.name
             ?.toLowerCase()
-            .includes(filters.searchQuery.toLowerCase()) ||
+            .includes(mainSearchQuery.toLowerCase()) ||
           candidate.skills?.some((skill) =>
-            skill.toLowerCase().includes(filters.searchQuery.toLowerCase())
+            skill.toLowerCase().includes(mainSearchQuery.toLowerCase())
           ) ||
           candidate.college
             ?.toLowerCase()
-            .includes(filters.searchQuery.toLowerCase()) ||
+            .includes(mainSearchQuery.toLowerCase()) ||
           candidate.branch
             ?.toLowerCase()
-            .includes(filters.searchQuery.toLowerCase());
+            .includes(mainSearchQuery.toLowerCase());
 
         return (
           matchesSkills &&
           matchesBranch &&
           matchesBatch &&
           matchesCollege &&
-          matchesSearch
+          matchesMainSearch
         );
       });
 
@@ -94,7 +98,7 @@ function Page() {
       // Reset to first page when filters change
       setCurrentPage(1);
     }
-  }, [filters, candidatesData, loading]);
+  }, [filters, candidatesData, loading, mainSearchQuery]);
 
   // Calculate pagination values
   const totalPages = Math.ceil(filteredCandidates.length / candidatesPerPage);
@@ -118,14 +122,16 @@ function Page() {
   // Function to handle filter updates from FilterSidebar
   const handleFiltersApplied = (newFilters: any) => {
     setFilters(newFilters);
-    // if (window.innerWidth < 768) {
-    //   setShowMobileFilters(false);
-    // }
   };
 
-  // Function to handle search input
-  const handleSearch = (query: string) => {
-    setFilters((prev) => ({ ...prev, searchQuery: query }));
+  // Function to handle filter search (separate from main search)
+  const handleFilterSearch = (query: string) => {
+    setFilterSearchQuery(query);
+  };
+
+  // Function to handle main search input (separate from filter search)
+  const handleMainSearch = (query: string) => {
+    setMainSearchQuery(query);
   };
 
   // Toggle mobile filters
@@ -164,6 +170,8 @@ function Page() {
           <FilterSidebar
             onFiltersApplied={handleFiltersApplied}
             filters={filters}
+            filterSearchQuery={filterSearchQuery}
+            onFilterSearch={handleFilterSearch}
           />
         </div>
 
@@ -171,11 +179,10 @@ function Page() {
           <div className="p-4">
             <div className="relative flex items-center">
               <div className="flex-1">
-                <Search onSearch={handleSearch} />
+                <Search onSearch={handleMainSearch} />
               </div>
 
               {/* Filter Button for mobile */}
-
               <div
                 className="lg:hidden ml-2 p-2 bg-slate-700/50 hover:bg-slate-600/50 rounded-lg border border-white/10 text-white/70 hover:text-white transition-all duration-200"
                 onClick={toggleMobileFilters}
@@ -184,17 +191,6 @@ function Page() {
               >
                 <Filter size={18} />
               </div>
-
-              {/* <Sheet>
-              <SheetTrigger asChild>
-                <div className="md:hidden ml-2 p-2 bg-slate-700/50 hover:bg-slate-600/50 rounded-lg border border-white/10 text-white/70 hover:text-white transition-all duration-200">
-                  <Filter size={18} />
-                </div>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-full md:w-64">
-                <FilterSidebar onFiltersApplied={handleFiltersApplied} />
-              </SheetContent>
-            </Sheet> */}
             </div>
           </div>
           <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
@@ -275,6 +271,8 @@ function Page() {
         <FilterSidebar
           onFiltersApplied={handleFiltersApplied}
           filters={filters}
+          filterSearchQuery={filterSearchQuery}
+          onFilterSearch={handleFilterSearch}
         />
 
         {/* add a close icon */}
