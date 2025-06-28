@@ -221,10 +221,10 @@ function Page() {
               </div>
             </div>
 
-            {/* Pagination Controls */}
+            {/* Pagination Controls - FIXED */}
             {!loading && filteredCandidates.length > 0 && (
-              <div className="p-4 border-t border-white/10 -z-10">
-                <div className="flex flex-col md:flex-row gap-2.5 items-center justify-between ">
+              <div className="relative p-4 border-t border-white/10 bg-gradient-to-r from-slate-800/30 via-slate-700/20 to-slate-800/30 z-10">
+                <div className="flex flex-col md:flex-row gap-2.5 items-center justify-between">
                   {/* Results info */}
                   <div className="text-sm text-white/70">
                     Showing {startIndex + 1}-
@@ -233,21 +233,25 @@ function Page() {
                   </div>
 
                   {/* Pagination controls */}
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 relative z-20">
                     {/* Previous button */}
                     <button
+                      type="button"
                       onClick={goToPreviousPage}
                       disabled={currentPage === 1}
-                      className="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-700/50 border border-white/10 text-white/70 hover:bg-slate-600/50 hover:text-white transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-slate-700/50 disabled:hover:text-white/70 cursor-pointer"
+                      className="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-700/50 border border-white/10 text-white/70 hover:bg-slate-600/50 hover:text-white transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-slate-700/50 disabled:hover:text-white/70 active:scale-95"
+                      aria-label="Previous page"
                     >
                       <ChevronLeft size={18} />
                     </button>
 
                     {/* Next button */}
                     <button
+                      type="button"
                       onClick={goToNextPage}
                       disabled={currentPage === totalPages}
-                      className="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-700/50 border border-white/10 text-white/70 hover:bg-slate-600/50 hover:text-white transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-slate-700/50 disabled:hover:text-white/70 cursor-pointer"
+                      className="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-700/50 border border-white/10 text-white/70 hover:bg-slate-600/50 hover:text-white transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-slate-700/50 disabled:hover:text-white/70 active:scale-95"
+                      aria-label="Next page"
                     >
                       <ChevronRight size={18} />
                     </button>
